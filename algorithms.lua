@@ -18,7 +18,6 @@ local directions = {
 
 ------------------------------------------------------------
 local function default_algorithm(pos, node, digger, range)
-   minetest.node_dig(pos, node, digger)
    for _, dir in ipairs(directions) do
       local pos2 = {
          x = pos.x + dir.x,
@@ -33,6 +32,7 @@ local function default_algorithm(pos, node, digger, range)
       local node2 = minetest.get_node(pos2)
       if node2.name == node.name and
       (range2.x >= 0 and range2.y >= 0 and range2.z >= 0) then
+         minetest.node_dig(pos2, node2, digger)
          default_algorithm(pos2, node2, digger, range2)
       end
    end
@@ -49,6 +49,7 @@ local function default_algorithm_for_tree(pos, node, digger)
       }
       local node2 = minetest.get_node(pos2)
       if node2.name == node.name then
+         minetest.node_dig(pos2, node2, digger)
          default_algorithm_for_tree(pos2, node2, digger)
       end
    end
