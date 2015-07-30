@@ -3,6 +3,16 @@
 -- https://github.com/Yakisoba-PanTARO/digall
 ------------------------------------------------------------
 
+-- 設定ファイルの読み込み
+local worldpath = minetest.get_worldpath()
+local config_file = io.open(worldpath.."/digall_config.txt", "r")
+if config_file then
+   digall.registered_targets =
+      minetest.deserialize(config_file:read("*all"))
+   config_file:close()
+end
+
+
 -- 再帰的なnode_digの呼び出しで特定のコールバックを除く
 -- 方法が思いつかないのでフラグを立てるという原始的な
 -- やり方で解決することとする。
@@ -35,4 +45,12 @@ minetest.register_on_dignode(function(pos, oldnode, digger)
          switch = true
          -- !!! 取り扱いには要注意 !!! --
       end
+end)
+
+minetest.register_on_shutdown(function()
+         local config_file
+            = io.open(worldpath.."/digall_config.txt", "w")
+         config_file:write(
+            minetest.serialize(digall.registered_targets))
+         config_file:close()
 end)

@@ -28,8 +28,8 @@ digall.switch = true
 ------------------------------------------------------------
 local modpath = minetest.get_modpath("digall")
 
-dofile(modpath.."/common.lua")
 dofile(modpath.."/api.lua")
+dofile(modpath.."/common.lua")
 dofile(modpath.."/algorithms.lua")
 dofile(modpath.."/chatcommands.lua")
 dofile(modpath.."/setting.lua")

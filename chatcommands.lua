@@ -42,5 +42,23 @@ minetest.register_chatcommand(
          params[3] = minetest.deserialize("return "..params[3])
          digall.register_target(params[1], params[2], params[3])
          return true, "Done."
-      end
+      end,
+})
+
+minetest.register_chatcommand(
+   "digall:set_default_target_setting", {
+      description = "Set default target setting",
+      func = function()
+         digall.set_default_target_setting()
+         return true, "Done."
+      end,
+})
+
+minetest.register_chatcommand(
+   "digall:clear_target_setting", {
+      description = "Clear target setting",
+      func = function()
+         digall.clear_target_setting()
+         return true, "Done."
+      end,
 })
