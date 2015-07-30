@@ -19,7 +19,7 @@ function digall.register_target(nodename, algorithm_name, args)
 end
 
 function digall.remove_target(nodename)
-   table.remove(digall.registered_targets, nodename)
+   digall.registered_targets[nodename] = nil
 end
 
 function digall.register_algorithm(algorithm_name, func)
