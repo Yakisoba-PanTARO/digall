@@ -17,8 +17,7 @@ local directions = {
 }
 
 ------------------------------------------------------------
-local default_algorithm -- CもビックリのLuaの糞仕様
-default_algorithm = function(pos, node, digger, range)
+local function default_algorithm(pos, node, digger, range)
    minetest.node_dig(pos, node, digger)
    for _, dir in ipairs(directions) do
       local pos2 = {
@@ -40,8 +39,7 @@ default_algorithm = function(pos, node, digger, range)
 end
 
 ------------------------------------------------------------
-local default_algorithm_for_tree -- CもビックリのLuaの糞仕様
-default_algorithm_for_tree = function(pos, node, digger)
+local function default_algorithm_for_tree(pos, node, digger)
    minetest.node_dig(pos, node, digger)
    for _, dir in ipairs(directions) do
       local pos2 = {
