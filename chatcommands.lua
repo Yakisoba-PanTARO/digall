@@ -39,6 +39,11 @@ minetest.register_chatcommand(
       description = "Register target information",
       func = function(name, param)
          local params = string.split(param, " ")
+         if #params > 3 then
+            for i = 4, #params do
+               params[3] = params[3].." "..params[i]
+            end
+         end
          params[3] = minetest.deserialize("return "..params[3])
          digall.register_target(params[1], params[2], params[3])
          return true, "Done."
