@@ -10,6 +10,12 @@ if config_file then
    digall.registered_targets =
       minetest.deserialize(config_file:read("*all"))
    config_file:close()
+else
+   -- 全てのMOD読み込み後に設定する。
+   minetest.after(
+      0, function()
+         digall.set_default_target_setting()
+   end)
 end
 
 
