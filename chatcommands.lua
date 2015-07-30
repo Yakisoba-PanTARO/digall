@@ -4,7 +4,7 @@
 ------------------------------------------------------------
 
 -- 本当はformspecで設定できるのが一番いいんだけど
--- すごく面倒臭いのでやりません。
+-- すごく面倒臭いのでやりたくありません。
 
 minetest.register_chatcommand(
    "digall:on", {
@@ -24,13 +24,23 @@ minetest.register_chatcommand(
       end,
 })
 
--- ここできてない
+minetest.register_chatcommand(
+   "digall:remove_target", {
+      description = "Remove target",
+      func = function(target_name)
+         digall.remove_target(target_name)
+         return true, "Done."
+      end,
+})
+
 minetest.register_chatcommand(
    "digall:register_target", {
       params = "<nodename>,<algorithm_name>,<args>",
       description = "Register target information",
-      func = function(nodename, algorithm_name, args)
-         digall.register_target(nodename, algorithm_name, args)
+      func = function(name, param)
+         local params = string.split(param, " ")
+         params[3] = minetest.deserialize("return "..params[3])
+         digall.register_target(params[1], params[2], params[3])
          return true, "Done."
-      end,
+      end
 })
