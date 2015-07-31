@@ -6,13 +6,13 @@ DIGALLはMinetest用の一括破壊系MODです。
 ## API
 ### GLOBAL VARIABLES
 |名前|機能|
-|:-:|:-:|
+|:--|:--|
 |digall.switch|digallのon/offを表す|
 |digall.registered_targets|登録されているターゲット情報|
 |digall.registered_algorithms|登録されているアルゴリズム|
 ### GLOBAL FUNCTIONS
 |名前|機能|
-|:-:|:-:|
+|:--|:--|
 |digall.on|digallを有効にする|
 |digall.off|digallを無効にする|
 |digall.register_target|ターゲットを登録する|
