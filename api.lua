@@ -45,3 +45,11 @@ function digall.clear_target_setting()
       digall.registered_targets[key] = nil
    end
 end
+
+function digall.set_default_range(range)
+   for nodename, def in pairs(digall.registered_targets) do
+      if def.algorithm_name == "digall:default" then
+         def.args = range
+      end
+   end
+end

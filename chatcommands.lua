@@ -3,9 +3,6 @@
 -- https://github.com/Yakisoba-PanTARO/digall
 ------------------------------------------------------------
 
--- 本当はformspecで設定できるのが一番いいんだけど
--- すごく面倒臭いのでやりたくありません。
-
 minetest.register_chatcommand(
    "digall:on", {
       description = "Enable digall",
@@ -35,7 +32,7 @@ minetest.register_chatcommand(
 
 minetest.register_chatcommand(
    "digall:register_target", {
-      params = "<nodename>,<algorithm_name>,<args>",
+      params = "<nodename> <algorithm_name> <args>",
       description = "Register target information",
       func = function(name, param)
          local params = string.split(param, " ")
@@ -67,3 +64,14 @@ minetest.register_chatcommand(
          return true, "Done."
       end,
 })
+
+minetest.register_chatcommand(
+   "digall:set_default_range", {
+      params = "<range>",
+      description = "Set default algorithm range",
+      func = function(name, range)
+         digall.set_default_range(minetest.deserialize("return "..range))
+         return true, "Done"
+      end,
+})
+   
