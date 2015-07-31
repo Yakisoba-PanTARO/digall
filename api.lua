@@ -31,10 +31,10 @@ function digall.set_default_target_setting()
       if nodedef.drawtype == "normal" then
          if minetest.get_item_group(nodename, "tree") > 0 then
             digall.register_target(
-               nodename, "default_algorithm_for_tree")
+               nodename, "digall:default_for_tree")
          else
             digall.register_target(
-               nodename, "default_algorithm", {{x=3, y=3, z=3}})
+               nodename, "digall:default", {{x=3, y=3, z=3}})
          end
       end
    end

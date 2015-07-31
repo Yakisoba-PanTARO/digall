@@ -57,8 +57,8 @@ end
 
 ------------------------------------------------------------
 digall.register_algorithm(
-   "default_algorithm", default_algorithm)
+   "digall:default", default_algorithm)
 
 digall.register_algorithm(
-   "default_algorithm_for_tree", default_algorithm_for_tree)
+   "digall:default_for_tree", default_algorithm_for_tree)
                                 
