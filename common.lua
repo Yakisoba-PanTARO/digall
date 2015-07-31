@@ -39,6 +39,7 @@ minetest.register_on_dignode(function(pos, oldnode, digger)
          end
          -- !!! 取り扱いには要注意 !!! --
          switch = false
+         local wielded_item = digger:get_wielded_item()
          local algorithm_name =
             digall.registered_targets[oldnode.name].algorithm_name
          local algorithm = digall.registered_algorithms[algorithm_name]
@@ -48,11 +49,13 @@ minetest.register_on_dignode(function(pos, oldnode, digger)
          else
             algorithm(pos, oldnode, digger, unpack(args))
          end
+         digger:set_wielded_item(wielded_item)
          switch = true
          -- !!! 取り扱いには要注意 !!! --
       end
 end)
 
+-- シャットダウン時設定保存
 minetest.register_on_shutdown(function()
          local config_file
             = io.open(worldpath.."/digall_config.txt", "w")
