@@ -13,4 +13,4 @@ DIGALLはMinetest用の一括破壊系MODです。
 - Minetest JPの管理人RuiさんがFormspecで設定出来るようにしてくださいました。  
 [digall_formspec](https://github.com/Rui914/digall_formspec)
 - digallの掘るアルゴリズムを追加する拡張MODです。
-[digall_plus](https://github.com/Yakisoba-PanTARO/digall_plus)
+[digall_plus](https://github.com/Yakisoba-PanTARO/digall_plus)  
