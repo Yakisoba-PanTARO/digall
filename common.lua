@@ -52,10 +52,14 @@ minetest.register_on_dignode(function(pos, oldnode, digger)
          -- ツールアイテムなら耐久値復活
          if minetest.registered_tools[wielded_item:get_name()] then
             -- もし途中で耐久値が切れて他のアイテムがwielded_itemに
-            -- なっていた場合はそれをドロップして復活させる。
+            -- なっていた場合はそれを除去して復活させる。
+            -- 除去したアイテムはinventoryに追加する。
             local wielded_item2 = digger:get_wielded_item()
             if wielded_item2:get_name() ~= wielded_item:get_name() then
-               minetest.item_drop(wielded_item2, digger, pos)
+               digger:set_wielded_item(wielded_item)
+               local inv = digger:get_inventory()
+               inv:add_item("main", wielded_item2)
+               --minetest.item_drop(wielded_item2, digger, pos)
             end
             digger:set_wielded_item(wielded_item)
          end
