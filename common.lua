@@ -51,7 +51,6 @@ minetest.register_on_dignode(function(pos, oldnode, digger)
          end
          -- ツールアイテムなら耐久値復活
          if minetest.registered_tools[wielded_item:get_name()] then
-            print("KOKO")
             -- もし途中で耐久値が切れて他のアイテムがwielded_itemに
             -- なっていた場合はそれを除去して復活させる。
             -- 除去したアイテムはinventoryに追加する。
