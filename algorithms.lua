@@ -40,7 +40,6 @@ end
 
 ------------------------------------------------------------
 local function default_algorithm_for_tree(pos, node, digger)
-   minetest.node_dig(pos, node, digger)
    for _, dir in ipairs(directions) do
       local pos2 = {
          x = pos.x + dir.x,
