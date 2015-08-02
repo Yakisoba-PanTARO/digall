@@ -18,7 +18,6 @@ else
    end)
 end
 
-
 -- 再帰的なnode_digの呼び出しで特定のコールバックを除く
 -- 方法が思いつかないのでフラグを立てるという原始的な
 -- やり方で解決することとする。
@@ -27,6 +26,12 @@ end
 -- マルチに対応させるにはplayerの名前とフラグのリストを作って
 -- やれば簡単に出来ると思う。
 local switch = true
+
+-- wielded_itemの泥臭くて危ない実装を回避するために
+-- ダミーのアイテムを使用する。
+-- つまり一時的に耐久値が存在しないアイテムに持ち替え、
+-- 一連の処理終了後元々のアイテムに持ち替える。
+minetest.register_node("digall:dummy_item", {drawtype = "airlike",})
 
 minetest.register_on_dignode(function(pos, oldnode, digger)
       if not digall.switch then
@@ -39,7 +44,11 @@ minetest.register_on_dignode(function(pos, oldnode, digger)
          end
          -- !!! 取り扱いには要注意 !!! --
          switch = false
+         -- ツールの耐久値保護
          local wielded_item = digger:get_wielded_item()
+         if minetest.registered_tools[wielded_item:get_name()] then
+            digger:set_wielded_item(ItemStack("digall:dummy_item"))
+         end
          local algorithm_name =
             digall.registered_targets[oldnode.name].algorithm_name
          local algorithm = digall.registered_algorithms[algorithm_name]
@@ -49,18 +58,8 @@ minetest.register_on_dignode(function(pos, oldnode, digger)
          else
             algorithm(pos, oldnode, digger, unpack(args))
          end
-         -- ツールアイテムなら耐久値復活
+         -- ツールの場合元に戻す
          if minetest.registered_tools[wielded_item:get_name()] then
-            -- もし途中で耐久値が切れて他のアイテムがwielded_itemに
-            -- なっていた場合はそれを除去して復活させる。
-            -- 除去したアイテムはinventoryに追加する。
-            local wielded_item2 = digger:get_wielded_item()
-            if wielded_item2:get_name() ~= wielded_item:get_name() then
-               digger:set_wielded_item(wielded_item)
-               local inv = digger:get_inventory()
-               inv:add_item("main", wielded_item2)
-               --minetest.item_drop(wielded_item2, digger, pos)
-            end
             digger:set_wielded_item(wielded_item)
          end
          switch = true
