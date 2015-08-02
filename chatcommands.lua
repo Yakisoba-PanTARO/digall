@@ -24,7 +24,7 @@ minetest.register_chatcommand(
 minetest.register_chatcommand(
    "digall:remove_target", {
       description = "Remove target",
-      func = function(target_name)
+      func = function(_, target_name)
          digall.remove_target(target_name)
          return true, "Done."
       end,
