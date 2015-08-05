@@ -17,25 +17,27 @@ local directions = {
 }
 
 ------------------------------------------------------------
-local function default_algorithm(pos, node, digger, range)
+local function default_algorithm_sub
+   (pos, node, digger, range, original_pos)
    for _, dir in ipairs(directions) do
       local pos2 = {
          x = pos.x + dir.x,
          y = pos.y + dir.y,
          z = pos.z + dir.z,
       }
-      local range2 = {
-         x = range.x - math.abs(dir.x),
-         y = range.y - math.abs(dir.y),
-         z = range.z - math.abs(dir.z),
-      }
       local node2 = minetest.get_node(pos2)
-      if node2.name == node.name and
-      (range2.x >= 0 and range2.y >= 0 and range2.z >= 0) then
+      if (node2.name == node.name and
+          (math.abs(original_pos.x - pos2.x) <= range.x) and
+          (math.abs(original_pos.y - pos2.y) <= range.y) and
+          (math.abs(original_pos.z - pos2.z) <= range.z)) then
          minetest.node_dig(pos2, node2, digger)
-         default_algorithm(pos2, node2, digger, range2)
+         default_algorithm_sub(pos2, node2, digger, range, original_pos)
       end
    end
+end
+
+local function default_algorithm(pos, node, digger, range)
+   default_algorithm_sub(pos, node, digger, range, pos)
 end
 
 ------------------------------------------------------------
