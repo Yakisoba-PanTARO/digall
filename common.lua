@@ -51,7 +51,7 @@ minetest.register_on_dignode(function(pos, oldnode, digger)
          end
          local algorithm_name =
             digall.registered_targets[oldnode.name].algorithm_name
-         local algorithm = digall.registered_algorithms[algorithm_name]
+         local algorithm = digall.registered_algorithms[algorithm_name].func
          local args = digall.registered_targets[oldnode.name].args
          if not args then
             algorithm(pos, oldnode, digger)

@@ -58,8 +58,15 @@ end
 
 ------------------------------------------------------------
 digall.register_algorithm(
-   "digall:default", default_algorithm)
+   "digall:default", {
+      description = "Default Algorithm",
+      default_args = {{x = 3, y = 3, z = 3}},
+      func = default_algorithm,
+})
 
 digall.register_algorithm(
-   "digall:default_for_tree", default_algorithm_for_tree)
+   "digall:default_for_tree", {
+      description = "Default Algorithm For Tree",
+      func = default_algorithm_for_tree
+})
                                 

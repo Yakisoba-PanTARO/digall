@@ -12,29 +12,37 @@ function digall.off()
 end
 
 function digall.register_target(nodename, algorithm_name, args)
-   digall.registered_targets[nodename] = {
-      algorithm_name = algorithm_name,
-      args = args,
-   }
+   if args then
+      digall.registered_targets[nodename] = {
+         algorithm_name = algorithm_name,
+         args = args,
+      }
+   else
+      digall.registered_targets[nodename] = {
+         algorithm_name = algorithm_name,
+         args = digall.registered_algorithms[algorithm_name].default_args,
+      }
+      if not digall.registered_algorithms[algorithm_name].default_args then
+         print("KOKOKOKOKOOOOO")
+      end
+   end
 end
 
 function digall.remove_target(nodename)
    digall.registered_targets[nodename] = nil
 end
 
-function digall.register_algorithm(algorithm_name, func)
-   digall.registered_algorithms[algorithm_name] = func
+function digall.register_algorithm(algorithm_name, def)
+   digall.registered_algorithms[algorithm_name] = def
 end
 
 function digall.set_default_target_setting()
    for nodename, nodedef in pairs(minetest.registered_nodes) do
       if nodedef.drawtype == "normal" then
          if minetest.get_item_group(nodename, "tree") > 0 then
-            digall.register_target(
-               nodename, "digall:default_for_tree")
+            digall.register_target(nodename, "digall:default_for_tree")
          else
-            digall.register_target(
-               nodename, "digall:default", {{x=3, y=3, z=3}})
+            digall.register_target(nodename, "digall:default")
          end
       end
    end

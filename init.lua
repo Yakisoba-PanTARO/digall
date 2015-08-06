@@ -16,10 +16,12 @@ digall = {}
 digall.registered_targets = {}
 
 -- 掘るアルゴリズムの情報を保持するテーブル。
--- アルゴリズム名をキーとして関数を対応するオブジェクトとする。
--- また関数の第一から三引数は必須で決まっている。
--- digall.registered_algorithms[アルゴリズム名] =
---    function(pos, oldnode, digger, 可変長引数)
+-- 各情報はテーブルで管理され以下の構造を持つ。
+-- digall.registered_algorithms[アルゴリズム名] = {
+--    description, ... 説明
+--    default_args, ... デフォルトの引数値
+--    func, ... function(pos, oldnode, digger, 可変長引数)
+-- }
 digall.registered_algorithms = {}
 
 -- digall全体のon/offを切り替えるフラグ
