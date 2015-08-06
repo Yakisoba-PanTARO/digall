@@ -41,7 +41,9 @@ minetest.register_chatcommand(
                params[3] = params[3].." "..params[i]
             end
          end
-         params[3] = minetest.deserialize("return "..params[3])
+         if params[3] then
+            params[3] = minetest.deserialize("return "..params[3])
+         end
          digall.register_target(params[1], params[2], params[3])
          return true, "Done."
       end,

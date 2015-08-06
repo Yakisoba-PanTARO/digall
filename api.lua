@@ -22,9 +22,6 @@ function digall.register_target(nodename, algorithm_name, args)
          algorithm_name = algorithm_name,
          args = digall.registered_algorithms[algorithm_name].default_args,
       }
-      if not digall.registered_algorithms[algorithm_name].default_args then
-         print("KOKOKOKOKOOOOO")
-      end
    end
 end
 
@@ -37,6 +34,7 @@ function digall.register_algorithm(algorithm_name, def)
 end
 
 function digall.set_default_target_setting()
+   digall.clear_target_setting()
    for nodename, nodedef in pairs(minetest.registered_nodes) do
       if nodedef.drawtype == "normal" then
          if minetest.get_item_group(nodename, "tree") > 0 then
