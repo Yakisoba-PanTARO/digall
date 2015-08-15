@@ -38,7 +38,7 @@ function digall.set_default_target_setting()
    for nodename, nodedef in pairs(minetest.registered_nodes) do
       if nodedef.drawtype == "normal" then
          if minetest.get_item_group(nodename, "tree") > 0 then
-            digall.register_target(nodename, "digall:default_for_tree")
+            digall.register_target(nodename, "digall:default_without_range")
          else
             digall.register_target(nodename, "digall:default")
          end

@@ -16,9 +16,11 @@ local directions = {
    { x =  1, y =  0, z =  0 },
 }
 
-------------------------------------------------------------
-local function default_algorithm_sub
-   (pos, node, digger, range, original_pos)
+-- 再利用性を考えて公開する。
+-- limiting_prebには第一、第二、第五引数にdigall.default_algorithm_implに渡された
+-- 第一、第二、第三引数が渡される。
+-- 第三、第四引数には隣接するノードの位置とそのノードが渡される。
+function digall.default_algorithm_impl(pos, node, digger, limiting_prev)
    for _, dir in ipairs(directions) do
       local pos2 = {
          x = pos.x + dir.x,
@@ -26,34 +28,33 @@ local function default_algorithm_sub
          z = pos.z + dir.z,
       }
       local node2 = minetest.get_node(pos2)
-      if (node2.name == node.name and
-          (math.abs(original_pos.x - pos2.x) <= range.x) and
-          (math.abs(original_pos.y - pos2.y) <= range.y) and
-          (math.abs(original_pos.z - pos2.z) <= range.z)) then
+      if limiting_prev(pos, node, pos2, node2, digger) then
          minetest.node_dig(pos2, node2, digger)
-         default_algorithm_sub(pos2, node2, digger, range, original_pos)
+         digall.default_algorithm_impl(pos2, node2, digger, limiting_prev)
       end
    end
 end
 
+------------------------------------------------------------
 local function default_algorithm(pos, node, digger, range)
-   default_algorithm_sub(pos, node, digger, range, pos)
+   digall.default_algorithm_impl(
+      pos, node, digger, function(pos1, node1, pos2, node2, digger)
+         if (node1.name == node2.name             and
+             math.abs(pos.x - pos2.x) <= range.x  and
+             math.abs(pos.y - pos2.y) <= range.y  and
+             math.abs(pos.z - pos2.z) <= range.z) then
+            return true
+         end
+         return false
+   end)
 end
 
 ------------------------------------------------------------
-local function default_algorithm_for_tree(pos, node, digger)
-   for _, dir in ipairs(directions) do
-      local pos2 = {
-         x = pos.x + dir.x,
-         y = pos.y + dir.y,
-         z = pos.z + dir.z,
-      }
-      local node2 = minetest.get_node(pos2)
-      if node2.name == node.name then
-         minetest.node_dig(pos2, node2, digger)
-         default_algorithm_for_tree(pos2, node2, digger)
-      end
-   end
+local function default_algorithm_without_range(pos, node, digger)
+   digall.default_algorithm_impl(
+      pos, node, digger, function(pos1, node1, pos2, node2, digger)
+         return node1.name == node2.name
+   end)
 end
 
 ------------------------------------------------------------
@@ -65,8 +66,8 @@ digall.register_algorithm(
 })
 
 digall.register_algorithm(
-   "digall:default_for_tree", {
-      description = "Default Algorithm For Tree",
-      func = default_algorithm_for_tree
+   "digall:default_without_range", {
+      description = "Default Algorithm Without Range",
+      func = default_algorithm_without_range,
 })
                                 
