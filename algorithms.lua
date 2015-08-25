@@ -22,11 +22,7 @@ local directions = {
 -- 第三、第四引数には隣接するノードの位置とそのノードが渡される。
 function digall.default_algorithm_impl(pos, node, digger, limiting_prev)
    for _, dir in ipairs(directions) do
-      local pos2 = {
-         x = pos.x + dir.x,
-         y = pos.y + dir.y,
-         z = pos.z + dir.z,
-      }
+      local pos2 = vector.add(pos, dir)
       local node2 = minetest.get_node(pos2)
       if limiting_prev(pos, node, pos2, node2, digger) then
          minetest.node_dig(pos2, node2, digger)
